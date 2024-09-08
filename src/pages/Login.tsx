@@ -3,7 +3,7 @@ import LoginForm from '../components/LoginForm';
 
 const Login: React.FC = () => {
   return (
-    <div className='border-b bg-blue-100'>
+    <div className='flex min-h-full flex-col justify-center px-6 py-12 lg:px-8'>
       <LoginForm />
     </div>
   );
