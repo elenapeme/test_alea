@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../features/auth/authSlice';
 import { RootState, AppDispatch } from '../store';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const { loading, error } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,7 +22,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     dispatch(loginUser({ email: formData.email, password: formData.password }))
       .unwrap()
-      .then(() => setLoginSuccess(true))
+      .then(() => navigate('/list'))
       .catch(() => {});
   };
 
@@ -32,16 +33,19 @@ const LoginForm: React.FC = () => {
           Sign in to your account
         </h2>
       </div>
-      {loginSuccess && <p>Login successful!</p>}
       <form
         className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-6'
         onSubmit={handleSubmit}
       >
         <div>
-          <label className='block text-sm font-medium leading-6 text-gray-900'>
+          <label
+            htmlFor='email'
+            className='block text-sm font-medium leading-6 text-gray-900'
+          >
             Email
           </label>
           <input
+            id='email'
             type='email'
             name='email'
             value={formData.email}
@@ -51,10 +55,14 @@ const LoginForm: React.FC = () => {
           />
         </div>
         <div>
-          <label className='block text-sm font-medium leading-6 text-gray-900'>
+          <label
+            htmlFor='password'
+            className='block text-sm font-medium leading-6 text-gray-900'
+          >
             Password
           </label>
           <input
+            id='password'
             type='password'
             name='password'
             value={formData.password}

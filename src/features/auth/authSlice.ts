@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { login } from '../../api/auth/authApi';
 
-interface AuthState {
+export interface AuthState {
   token: string | null;
   loading: boolean;
   error: string | null;
@@ -13,7 +13,6 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Thunk asíncrono para el login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (
@@ -51,7 +50,7 @@ const authSlice = createSlice({
         (state, action: PayloadAction<{ token: string }>) => {
           state.loading = false;
           state.token = action.payload.token;
-          localStorage.setItem('token', action.payload.token); // Guardamos el token en el localStorage
+          localStorage.setItem('token', action.payload.token);
         }
       )
       .addCase(loginUser.rejected, (state, action) => {
